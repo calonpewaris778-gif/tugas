@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0F3D4C">
+<meta name="description" content="SiagaKita: panduan gempa gratis yang tetap bekerja tanpa internet. Mode darurat, alat SOS, data BMKG, dan tanya jawab kesiapsiagaan.">
+<meta property="og:title" content="SiagaKita - Panduan gempa yang tetap bekerja saat darurat">
+<meta property="og:description" content="Gratis, tanpa akun, tanpa iklan. Panduan darurat, alat SOS, dan data gempa BMKG.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>SiagaKita – Panduan gempa yang tetap bekerja saat darurat</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="bar">
+  <a class="brand" href="#/beranda">SiagaKita</a>
+  <nav id="nav" aria-label="Menu utama">
+    <a href="#/beranda">Beranda</a><a href="#/darurat">Darurat</a><a href="#/tanya">Tanya</a><a href="#/siaga">Siaga</a><a href="#/belajar">Belajar</a>
+  </nav><span id="net" hidden>Offline: panduan tetap bisa dipakai</span>
+</div>
+<div id="nq" role="alert" hidden><span id="nqt"></span><button class="btn ol" id="nqx" style="min-height:36px;padding:6px 12px">Tutup</button></div>
+</header>
+
+<noscript><p style="padding:20px">SiagaKita membutuhkan JavaScript. Jika sedang darurat: merunduk, berlindung di bawah meja, berpegangan. Telepon 112.</p></noscript>
+<main class="wrap" id="app">
+
+<!-- BERANDA -->
+<section class="page" id="pg-beranda">
+  <div class="hero">
+    <h1 tabindex="-1">Panduan gempa yang tetap bekerja saat sinyal hilang</h1>
+    <p>Gratis, tanpa akun, tanpa iklan. Semua panduan dan alat darurat berjalan di perangkatmu tanpa internet. Hanya data gempa terbaru yang butuh sinyal.</p>
+    <div class="row"><a class="btn red" href="#/darurat">Sedang gempa? Buka mode darurat</a><a class="btn ol" href="#/belajar">Belajar dan kuis</a></div>
+  </div>
+  <div class="card warn" style="color:#7A1D17"><b>Penting:</b> halaman ini bukan sistem peringatan dini resmi. Data BMKG baru muncul beberapa menit setelah gempa. Saat tanah berguncang, jangan menunggu informasi: langsung merunduk, berlindung, berpegangan.</div>
+  <div class="card" id="qk" aria-live="polite"><p>Memuat data gempa terbaru dari BMKG...</p></div>
+  <div class="row" style="margin:-4px 0 16px"><button class="btn dk" id="qr">Perbarui data</button><button class="btn ol" id="qd">Hitung jarak dari lokasiku</button></div>
+  <div class="grid">
+    <div class="card"><h3>Deteksi guncangan otomatis</h3><p>Eksperimental. Memakai sensor gerak ponsel untuk membuka mode darurat saat terasa guncangan panjang. Bisa keliru dan hanya bekerja jika halaman ini terbuka. Letakkan ponsel di permukaan datar.</p><div class="row"><button class="btn dk" id="sk" aria-pressed="false">Aktifkan deteksi</button></div><p id="skm" style="margin-top:8px"></p></div>
+    <div class="card"><h3>Notifikasi gempa baru</h3><p>Dapatkan pemberitahuan saat BMKG mencatat gempa M4,5 atau lebih ketika halaman ini masih terbuka.</p><div class="row"><button class="btn dk" id="nt">Aktifkan notifikasi</button></div><p id="ntm" style="margin-top:8px"></p></div>
+    <div class="card"><h3>Agar bisa dibuka tanpa sinyal</h3><p>Simpan halaman ini di ponselmu: unduh file HTML-nya lalu buka dari penyimpanan, atau gunakan menu browser lalu "Tambahkan ke layar utama" setelah halaman dibuka sekali dengan internet.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Tentang SiagaKita</h3><p>Dibuat agar kesiapsiagaan bencana bisa diakses semua orang tanpa biaya. Keberlanjutannya dapat ditopang kerja sama dengan BPBD dan sekolah, dana CSR, atau donasi sukarela tanpa menutup fitur apa pun.</p>
+    <p style="margin-top:10px"><b>Apakah ini membantu?</b></p>
+    <div class="row" id="fb"><button class="btn ol" data-f="Ya">Sangat membantu</button><button class="btn ol" data-f="Cukup">Cukup</button><button class="btn ol" data-f="Belum">Belum</button></div><p id="fbr" style="margin-top:8px"></p></div>
+</section>
+
+<!-- DARURAT -->
+<section class="page" id="pg-darurat" hidden>
+  <h1 tabindex="-1">Mode darurat</h1>
+  <div class="card warn" style="color:#7A1D17;font-size:1.1rem">Jika tanah sedang berguncang: <b>merunduk, berlindung di bawah meja, berpegangan.</b> Baca panduan setelah guncangan berhenti.</div>
+  <div class="tabs" role="tablist" id="tb1">
+    <button class="btn ol" role="tab" aria-selected="true" data-t="d-a">Panduan</button>
+    <button class="btn ol" role="tab" aria-selected="false" data-t="d-b">Alat</button>
+    <button class="btn ol" role="tab" aria-selected="false" data-t="d-c">Telepon</button>
+  </div>
+  <div id="d-a">
+    <h2>Kamu sedang di mana?</h2>
+    <div class="loc" id="locs"></div>
+    <div class="row"><button class="btn ol" id="vb" aria-pressed="false">Suara: mati</button><button class="btn ol" id="sd">Langsung ke langkah setelah gempa</button></div>
+    <div id="gbox" hidden aria-live="polite"></div>
+  </div>
+  <div id="d-b" hidden>
+    <div class="grid">
+      <div class="card"><h3>Senter</h3><p>Layar putih penuh sebagai penerang. Lampu kamera ikut menyala jika diizinkan dan didukung.</p><div class="row"><button class="btn yel big" id="tl">Nyalakan senter</button></div></div>
+      <div class="card"><h3>Sirine</h3><p>Bunyi keras agar penyelamat menemukanmu jika terjebak. Boros baterai, pakai seperlunya.</p><div class="row"><button class="btn red big" id="sr" aria-pressed="false">Nyalakan sirine</button></div></div>
+      <div class="card"><h3>Sinyal SOS</h3><p>Layar berkedip pola SOS agar terlihat dari jauh pada malam hari.</p><div class="row"><button class="btn dk big" id="so">Mulai sinyal SOS</button></div></div>
+    </div>
+    <div class="card"><h3>Kirim kabar dan lokasi</h3><p>Buat pesan berisi lokasi GPS dan waktu, lalu kirim lewat WhatsApp, SMS, atau salin. Pesan teks lebih mudah terkirim daripada telepon saat jaringan penuh.</p>
+      <div class="row"><button class="btn dk" data-s="Saya selamat">Saya selamat</button><button class="btn red" data-s="Saya butuh bantuan">Saya butuh bantuan</button></div>
+      <div id="kb" aria-live="polite" style="margin-top:12px"></div></div>
+  </div>
+  <div id="d-c" hidden>
+    <div class="grid">
+      <a class="card btn-card" href="tel:112" style="text-decoration:none"><div class="tel">112</div><p>Layanan darurat terpadu nasional</p></a>
+      <a class="card btn-card" href="tel:115" style="text-decoration:none"><div class="tel">115</div><p>Basarnas, pencarian dan pertolongan</p></a>
+      <a class="card btn-card" href="tel:117" style="text-decoration:none"><div class="tel">117</div><p>BNPB, informasi kebencanaan</p></a>
+      <a class="card btn-card" href="tel:119" style="text-decoration:none"><div class="tel">119</div><p>Ambulans dan layanan kesehatan darurat</p></a>
+    </div>
+    <p class="lead">Telepon hanya untuk keadaan darurat dan singkat, agar jaringan tidak penuh.</p>
+  </div>
+</section>
+
+<!-- TANYA -->
+<section class="page" id="pg-tanya" hidden>
+  <h1 tabindex="-1">Tanya Siaga</h1>
+  <p class="lead">Tanyakan soal gempa dengan kata sehari-hari. Setiap jawaban menampilkan topik yang dipakai, dan kamu bisa memilih topik lain jika kurang sesuai. Bekerja tanpa internet.</p>
+  <div class="card">
+    <div class="chat" id="chat" aria-live="polite"><div class="msg bot">Halo. Apa yang ingin kamu ketahui? Pilih contoh di bawah atau ketik pertanyaanmu.</div></div>
+    <form class="ask" id="askf"><input id="askq" type="text" placeholder="Contoh: gempa saat di sekolah" aria-label="Pertanyaan"><button class="btn dk" type="submit">Kirim</button></form>
+    <div class="chips" id="sug"></div>
+    <div class="row"><button class="btn ol" id="allt">Lihat semua topik</button></div>
+  </div>
+</section>
+
+<!-- SIAGA -->
+<section class="page" id="pg-siaga" hidden>
+  <h1 tabindex="-1">Siaga di rumah</h1>
+  <p class="lead">Centang yang sudah siap. Progresmu tersimpan di perangkat ini.</p>
+  <div class="card"><h2>Tas siaga</h2>
+    <div class="step"><span>Jumlah orang:</span><button class="btn ol" id="nm" aria-label="Kurangi">-</button><b id="nv"></b><button class="btn ol" id="np" aria-label="Tambah">+</button></div>
+    <p>Tambahkan kebutuhan khusus:</p>
+    <div class="chips" id="ex"></div>
+    <div class="bar2"><i id="tb"></i></div><p id="tt"></p>
+    <ul class="ck" id="tas"></ul></div>
+  <div class="card"><h2>Cek keamanan rumah</h2>
+    <div class="bar2"><i id="hb"></i></div><p id="ht"></p>
+    <ul class="ck" id="rm"></ul></div>
+</section>
+
+<!-- BELAJAR -->
+<section class="page" id="pg-belajar" hidden>
+  <h1 tabindex="-1">Belajar dan kuis</h1>
+  <div class="tabs" role="tablist" id="tb2">
+    <button class="btn ol" role="tab" aria-selected="true" data-t="b-b">Mitos atau fakta</button>
+    <button class="btn ol" role="tab" aria-selected="false" data-t="b-c">Kuis</button>
+  </div>
+  <div id="b-b"></div>
+  <div id="b-c" hidden><div class="card" id="qzb"></div></div>
+</section>
+</main>
+
+<footer class="wrap">SiagaKita adalah prototipe tugas akhir pelatihan. Utamakan selalu informasi resmi dari BMKG dan BPBD setempat.</footer>
+<a id="fab" href="#/darurat">Sedang gempa?</a>
+<div id="ov" role="button" tabindex="0" aria-label="Ketuk untuk menutup"><span>Ketuk di mana saja untuk menutup</span></div>
+<div id="sa" role="alertdialog" aria-live="assertive" hidden><div class="card"><h2>Guncangan terdeteksi</h2><p style="font-size:1.1rem">Jika ini gempa: merunduk, berlindung di bawah meja, berpegangan.</p>
+  <div class="row"><a class="btn yel" href="#/darurat" id="sao">Buka mode darurat</a><button class="btn ol" id="sax">Bukan gempa</button></div></div></div>
+
+<script src="kb.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
