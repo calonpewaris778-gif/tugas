@@ -1,0 +1,12 @@
+{
+  "name": "SiagaKita",
+  "short_name": "SiagaKita",
+  "description": "Panduan gempa gratis yang tetap bekerja tanpa internet",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F4F5F0",
+  "theme_color": "#0F3D4C",
+  "lang": "id",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
